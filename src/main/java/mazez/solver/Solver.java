@@ -1,6 +1,6 @@
 package mazez.solver;
 
-import mazez.Board;
+import mazez.model.Board;
 import mazez.Mode;
 
 public interface Solver {

@@ -1,14 +1,14 @@
 package mazez.solver;
 
-import mazez.Board;
-import mazez.Cell;
-import mazez.Direction;
+import mazez.model.Board;
+import mazez.model.Cell;
+import mazez.model.Direction;
 import mazez.Mode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static mazez.Direction.ALL_DIRECTIONS;
+import static mazez.model.Direction.ALL_DIRECTIONS;
 
 public class MazeSolverDFS implements Solver {
     boolean[][] visited;

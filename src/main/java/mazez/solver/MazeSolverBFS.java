@@ -1,8 +1,8 @@
 package mazez.solver;
 
-import mazez.Board;
-import mazez.Cell;
-import mazez.Direction;
+import mazez.model.Board;
+import mazez.model.Cell;
+import mazez.model.Direction;
 import mazez.Mode;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import static mazez.Direction.ALL_DIRECTIONS;
+import static mazez.model.Direction.ALL_DIRECTIONS;
 import static mazez.MazeGenerator.displayMaze;
 import static mazez.Mode.FIND_SHORTEST_PATH;
 

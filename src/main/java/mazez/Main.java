@@ -1,6 +1,7 @@
 package mazez;
 
 import mazez.MazeGenerator.GenerationParams;
+import mazez.model.Board;
 import mazez.solver.SolverSelector;
 
 import java.util.ArrayList;

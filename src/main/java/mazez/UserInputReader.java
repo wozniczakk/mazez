@@ -17,7 +17,6 @@ public class UserInputReader {
         System.out.printf("Welcome to the maze solver. Please, provide size of the maze in range %s-%s.\n", MIN_SIZE, MAX_SIZE);
         int size = scan.nextInt();
         validateSize(size);
-        // validate input
         System.out.printf("Chosen size is: %s\n", size);
         System.out.println("Please, provide how many obstacles you want. No more than a half (rounded up) of the size.");
         int numberOfObstacles = scan.nextInt();

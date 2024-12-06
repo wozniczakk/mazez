@@ -1,4 +1,4 @@
-package mazez;
+package mazez.model;
 
 public class Cell {
 

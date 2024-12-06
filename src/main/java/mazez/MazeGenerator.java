@@ -1,5 +1,10 @@
 package mazez;
 
+import mazez.model.Board;
+import mazez.model.Cell;
+import mazez.model.Direction;
+import mazez.model.Position;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +12,9 @@ import static java.lang.Math.min;
 import static java.util.Collections.shuffle;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.IntStream.range;
-import static mazez.Direction.ALL_DIRECTIONS;
-import static mazez.Direction.EAST;
-import static mazez.Direction.getOpposite;
+import static mazez.model.Direction.ALL_DIRECTIONS;
+import static mazez.model.Direction.EAST;
+import static mazez.model.Direction.getOpposite;
 
 public class MazeGenerator {
     public static final Position DEFAULT_STARTING_POSITION = new Position(0, 0);

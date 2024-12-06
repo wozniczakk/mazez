@@ -1,9 +1,13 @@
 package mazez;
 
+import mazez.model.Board;
+import mazez.model.Cell;
+import mazez.model.Direction;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static mazez.Direction.ALL_DIRECTIONS;
+import static mazez.model.Direction.ALL_DIRECTIONS;
 
 public class MazeValidator {
     List<Cell> endingCells;
