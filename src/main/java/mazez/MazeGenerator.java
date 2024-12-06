@@ -1,54 +1,50 @@
 package mazez;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static java.lang.Math.min;
 import static java.util.Collections.shuffle;
-import static java.util.Optional.empty;
+import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.IntStream.range;
+import static mazez.Direction.ALL_DIRECTIONS;
 import static mazez.Direction.EAST;
-import static mazez.Direction.NORTH;
-import static mazez.Direction.SOUTH;
-import static mazez.Direction.WEST;
 import static mazez.Direction.getOpposite;
 
 public class MazeGenerator {
+    public static final Position DEFAULT_STARTING_POSITION = new Position(0, 0);
     int size;
-    int[] start;
+    Position startingPosition;
     int numberOfCoins;
     int numberOfObstacles;
-    Cell[][] maze;
+    Board maze;
 
     public MazeGenerator(GenerationParams generationParams) {
         this.size = generationParams.size;
-        this.start = generationParams.start;
+        this.startingPosition = generationParams.start;
         this.numberOfCoins = generationParams.numberOfCoins;
         this.numberOfObstacles = generationParams.numberOfObstacles;
-        this.maze = new Cell[size][size];
-        initialiseMaze();
+        this.maze = new Board(size, size, generationParams.start);
     }
 
-    public Cell[][] carve() {
-        carvePassageFrom(start[0], start[1]);
+    public Board carve() {
+        carvePassageFrom(maze.getCell(maze.getStartingPosition()));
         addObstacles(maze, numberOfObstacles);
         addCoins(maze, numberOfCoins);
         return maze;
     }
 
-    private void addCoins(Cell[][] maze, int numberOfCoins) {
-        var cellsWithSPassage = new ArrayList<>(Arrays.stream(maze).flatMap(row -> Arrays.stream(row).filter(Cell::hasSPassage)).toList());
+    private void addCoins(Board maze, int numberOfCoins) {
+        var cellsWithSPassage = maze.getAllCells().stream().filter(Cell::hasSPassage).collect(toCollection(ArrayList::new));
         shuffle(cellsWithSPassage);
         range(0, min(numberOfCoins, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setCoin(true));
     }
 
-    private void addObstacles(Cell[][] maze, int numberOfObstacles) {
-        var cellsWithSPassage = new ArrayList<>(Arrays.stream(maze).flatMap(Arrays::stream).toList());
-        shuffle(cellsWithSPassage);
-        range(0, min(numberOfObstacles, cellsWithSPassage.size())).forEach(index -> {
-            Cell currentCell = cellsWithSPassage.get(index);
+    private void addObstacles(Board maze, int numberOfObstacles) {
+        var cells = maze.getAllCells();
+        shuffle(cells);
+        range(0, min(numberOfObstacles, cells.size())).forEach(index -> {
+            Cell currentCell = cells.get(index);
             closePassage(currentCell);
             closeAllNeighbours(currentCell);
         });
@@ -61,49 +57,29 @@ public class MazeGenerator {
         cell.setHasWPassage(false);
     }
 
-    private void closeAllNeighbours(Cell cell) {
-        List<Direction> directions = new ArrayList<>(List.of(NORTH, SOUTH, EAST, WEST));
-        for (Direction direction : directions) {
-            int newRow = cell.getX() + direction.vector[0];
-            int newColumn = cell.getY() + direction.vector[1];
-            if (isValidCell(newRow, newColumn)) {
-                Cell neighbourCell = maze[newRow][newColumn];
-                setPassage(neighbourCell, getOpposite(direction), false);
-            }
+    private void closeAllNeighbours(Cell currentCell) {
+        for (Direction direction : ALL_DIRECTIONS) {
+            var neighbour = maze.getNeighbour(currentCell, direction);
+            neighbour.ifPresent(newCell -> setPassage(newCell, getOpposite(direction), false));
         }
     }
 
-    private void carvePassageFrom(int row, int column) {
-        List<Direction> directions = new ArrayList<>(List.of(NORTH, SOUTH, EAST, WEST));
+    private void carvePassageFrom(Cell currentCell) {
+        List<Direction> directions = new ArrayList<>(ALL_DIRECTIONS);
         shuffle(directions);
 
         for (Direction direction : directions) {
-            int newRow = row + direction.vector[0];
-            int newColumn = column + direction.vector[1];
-            if (isValidCell(newRow, newColumn) && hasNeverBeenVisited(maze[newRow][newColumn])) {
-                Cell currentCell = maze[row][column];
-                Cell newCell = maze[newRow][newColumn];
-
+            var neighbour = maze.getNeighbour(currentCell, direction);
+            neighbour.filter(this::hasNeverBeenVisited).ifPresent(newCell -> {
                 setPassage(currentCell, direction, true);
                 setPassage(newCell, getOpposite(direction), true);
-
-                carvePassageFrom(newRow, newColumn);
-            }
+                carvePassageFrom(newCell);
+            });
         }
-    }
-
-    private boolean isValidCell(int row, int column) {
-        return row < size && row >= 0 && column < size && column >= 0;
     }
 
     private boolean hasNeverBeenVisited(Cell cell) {
         return !cell.hasEPassage() && !cell.hasNPassage() && !cell.hasSPassage() && !cell.hasWPassage();
-    }
-
-    private void initialiseMaze() {
-        range(0, size)
-                .forEach(x -> range(0, size)
-                        .forEach(y -> maze[x][y] = new Cell(x, y)));
     }
 
     private void setPassage(Cell cell, Direction direction, boolean isOpen) {
@@ -115,13 +91,9 @@ public class MazeGenerator {
         }
     }
 
-    private Optional<Cell> getRightNeighbour(int row, int column) {
-        int neighbourColumn = column + 1;
-        return isValidCell(row, neighbourColumn) ? Optional.of(maze[row][column + 1]) : empty();
-    }
-
-    public void displayMaze(List<Cell> path) {
+    public static void displayMaze(List<Cell> path, Board maze) {
         StringBuilder sb = new StringBuilder();
+        int size = maze.getNumberOfColumns();
         sb.append(" ");
         sb.repeat("_", size * 2 - 1);
         sb.append('\n');
@@ -129,7 +101,7 @@ public class MazeGenerator {
         for (int row = size - 1; row >= 0; row--) {
             sb.append('|');
             for (int column = 0; column < size; column++) {
-                Cell cell = maze[row][column];
+                Cell cell = maze.getCell(row, column);
                 if (path.contains(cell)) {
                     sb.append("()");
                 } else {
@@ -139,7 +111,7 @@ public class MazeGenerator {
                         sb.append(cell.hasSPassage() ? " " : "_");
                     }
                     if (cell.hasEPassage()) {
-                        sb.append(cell.hasSPassage() || getRightNeighbour(row, column).map(Cell::hasSPassage).orElse(false) ? " " : "_");
+                        sb.append(cell.hasSPassage() || maze.getNeighbour(cell, EAST).map(Cell::hasSPassage).orElse(false) ? " " : "_");
                     } else {
                         sb.append("|");
                     }
@@ -151,7 +123,7 @@ public class MazeGenerator {
     }
 
     //enter/exit/obstacles
-    public record GenerationParams(int size, int[] start, int numberOfCoins, int numberOfObstacles) {
+    public record GenerationParams(int size, Position start, int numberOfCoins, int numberOfObstacles) {
     }
 }
 

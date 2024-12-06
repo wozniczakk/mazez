@@ -63,6 +63,15 @@ public class Cell {
         this.hasCoin = hasCoin;
     }
 
+    public boolean canGoInDirection(Direction direction) {
+        return switch (direction) {
+            case NORTH -> hasNPassage();
+            case EAST -> hasEPassage();
+            case SOUTH -> hasSPassage();
+            case WEST -> hasWPassage();
+        };
+    }
+
     @Override
     public String toString() {
         return "Cell{" +

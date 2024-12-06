@@ -1,29 +1,46 @@
 package mazez;
 
+import mazez.MazeGenerator.GenerationParams;
+import mazez.solver.SolverSelector;
+
+import java.util.ArrayList;
 import java.util.List;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+import static mazez.MazeGenerator.displayMaze;
+
 public class Main {
     public static void main(String[] args) {
-        MazeGenerator mazeGenerator = new MazeGenerator(
-                new MazeGenerator.GenerationParams(20, new int[]{0, 0}, 5, 0));
-        Cell[][] maze = mazeGenerator.carve();
-        // extract printer and accept maze as a param
+        UserInputReader userInputReader = new UserInputReader();
+        GenerationParams params = userInputReader.getGenerationParams();
+        List<Mode> modes = userInputReader.getModes();
+        solve(params, modes);
+    }
 
-        MazeSolverDFS mazeSolverDFS = new MazeSolverDFS(new int[]{0, 0}, maze);
-        while (mazeSolverDFS.findEndingCells().isEmpty()) {
-            mazeGenerator = new MazeGenerator(
-                    new MazeGenerator.GenerationParams(20, new int[]{0, 0}, 5, 0));
+    private static void solve(GenerationParams params, List<Mode> modes) {
+        SolverSelector solverSelector = new SolverSelector();
+        Board maze = generateValidMaze(params);
+        displayMaze(new ArrayList<>(), maze);
+
+        modes.forEach(mode -> solverSelector.solveMode(maze, mode));
+
+//        MazeSolverBFS mazeSolverBFS = new MazeSolverBFS(new int[]{0, 0}, maze.getBoard());
+//        List<Cell> path = mazeSolverBFS.bfs(0, 0);
+//        System.out.println("Steps to ending " + path.size());
+//        mazeGenerator.displayMaze(path);
+//        mazeSolverDFS.solve(maze);
+//        System.out.println(mazeSolverDFS.findEndingCells().size());
+    }
+
+    private static Board generateValidMaze(GenerationParams params) {
+        var mazeValidator = new MazeValidator();
+        var mazeGenerator = new MazeGenerator(params);
+        var maze = mazeGenerator.carve();
+
+        while (!mazeValidator.validate(maze)) {
+            mazeGenerator = new MazeGenerator(params);
             maze = mazeGenerator.carve();
-            mazeSolverDFS = new MazeSolverDFS(new int[]{0, 0}, maze);
         }
 
-        MazeSolverBFS mazeSolverBFS = new MazeSolverBFS(new int[]{0, 0}, maze);
-        List<Cell> path = mazeSolverBFS.bfs(0, 0);
-        System.out.println("Steps to ending " + path.size());
-        mazeGenerator.displayMaze(path);
-        mazeSolverDFS.solve();
-        System.out.println(mazeSolverDFS.findEndingCells().size());
+        return maze;
     }
 }
