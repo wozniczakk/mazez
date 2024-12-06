@@ -1,0 +1,2 @@
+# mazez
+Maze generator/solver
