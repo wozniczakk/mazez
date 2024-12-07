@@ -11,11 +11,51 @@ In every mode the goal is to reach an exit (a wall on the diagonal from the star
 5. `TRAPS` - tries to find the shortest path avoiding as many traps as possible (but some of them can be impossible to avoid). Users can choose how many traps appear on the board. 
 
 ## Solving algorithms
-1. Breadth-First Search (BFS) - finds shortest path to an exit.
-2. Depth-First Search (DFS) - finds all possible paths.
-3. Dijkstra - finds shortest path considering different weights of cells.
-4. Bellman-Ford - finds shortest path considering negative cell values.
+1. *Breadth-First Search (BFS)* - finds shortest path to an exit.
+2. *Depth-First Search (DFS)* - finds all possible paths.
+3. *Dijkstra* - finds shortest path considering different weights of cells.
+4. *Bellman-Ford* - finds shortest path considering negative cell values.
 
+## Example maze
+1. Sample maze 15*15 with `COLLECT_COINS` mode active. Number of obstacles: 7. Number of coins: 7.
+```
+ _____________________________
+|     |_   ___  |  _  |_    | |
+| | |_|_|_  |_  | |  _|  _| |*|
+|*| | |_  |_  |___|_  |_  |_  |
+|_| |_  | |  _|  _  | |* _| |_|
+|  _|  _|___|_|_|___| |_  | |_|
+| |_  |    ___|  _____|_| |_  |
+| |_|_| |___  |_  |  _   _|___|
+| |___  |   |_____| |  _|  _  |
+| |   | | |_  |_____| |  ___| |
+|___| | | |___|_|_  | | |  _  |
+|  ___| |*  |  ___| |  _|_  |_|
+| | |_| | | |___ * _|___  |_  |
+|*|*|  _|_| |   |_____  |  _| |
+| | | |   |___|___  |  _|_|   |
+|_|_____|___________|_______|_|
+```
+2. Sample maze 15*15 with `FIND_SHORTEST_PATH` mode active (the path is marked on the maze). Number of obstacles: 4. 
+
+```
+ _____________________________
+|_    |_     _  |_|_|___   _  |
+|  _|_  |_| |  ___________| | |
+|___  |_  | |_|  _  |  ___   _|
+| |_|_|  _|___  |  _| |   |___|
+| |   |_____  | | |  _| |___  |
+| | |___  |  _|_| |_  |___  | |
+| |_____|_________| |_|   | | |
+| |   |   |  ___  | |_|_|_| | |
+|  _|___|___  | | |___|   | | |
+|___|()()()_____|  _____|___| |
+|()()()()()()()() |()()()()() |
+|()  _|()()() |()_|()()() |()()
+|()_    |  ___|()() | |()_  | |
+|()() |___|    _|()___|()() | |
+|__()_______|_|_|()()()()()___|
+```
 ## Possible improvements 
 1. Add different maze generation algorithms (currently only recursive backtracking).
 2. Add more modes (like shortest path when collecting coins).
