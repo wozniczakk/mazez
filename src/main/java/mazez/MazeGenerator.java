@@ -19,14 +19,12 @@ public class MazeGenerator {
     public static final Position DEFAULT_STARTING_POSITION = new Position(0, 0);
     int size;
     Position startingPosition;
-    int numberOfCoins;
     int numberOfObstacles;
     Board maze;
 
     public MazeGenerator(GenerationParams generationParams) {
         this.size = generationParams.size;
         this.startingPosition = generationParams.start;
-        this.numberOfCoins = generationParams.numberOfCoins;
         this.numberOfObstacles = generationParams.numberOfObstacles;
         this.maze = new Board(size, size, generationParams.start);
     }
@@ -34,14 +32,7 @@ public class MazeGenerator {
     public Board carve() {
         carvePassageFrom(maze.getStartingCell());
         addObstacles(maze, numberOfObstacles);
-        addCoins(maze, numberOfCoins);
         return maze;
-    }
-
-    private void addCoins(Board maze, int numberOfCoins) {
-        var cellsWithSPassage = maze.getAllCells().stream().filter(Cell::hasSPassage).collect(toCollection(ArrayList::new));
-        shuffle(cellsWithSPassage);
-        range(0, min(numberOfCoins, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setCoin(true));
     }
 
     private void addObstacles(Board maze, int numberOfObstacles) {
@@ -95,6 +86,6 @@ public class MazeGenerator {
         return !cell.hasEPassage() && !cell.hasNPassage() && !cell.hasSPassage() && !cell.hasWPassage();
     }
 
-    public record GenerationParams(int size, Position start, int numberOfCoins, int numberOfObstacles) {
+    public record GenerationParams(int size, Position start, int numberOfObstacles) {
     }
 }
