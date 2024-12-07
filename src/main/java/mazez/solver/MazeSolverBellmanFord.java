@@ -31,7 +31,6 @@ public class MazeSolverBellmanFord implements Solver {
         System.out.println("Best score is " + -shortestPath.score());
     }
 
-
     private Route solve(Board board) {
         visited = new boolean[board.getNumberOfRows()][board.getNumberOfColumns()];
         return findOptimalRouteFrom(board);

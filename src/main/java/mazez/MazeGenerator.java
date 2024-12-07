@@ -54,7 +54,7 @@ public class MazeGenerator {
     private void closeAllNeighbours(Cell currentCell) {
         for (Direction direction : ALL_DIRECTIONS) {
             var neighbour = maze.getNeighbour(currentCell, direction);
-            neighbour.ifPresent(newCell -> setPassage(newCell, getOpposite(direction), false));
+            neighbour.ifPresent(newCell -> modifyPassage(newCell, getOpposite(direction), false));
         }
     }
 
@@ -65,14 +65,14 @@ public class MazeGenerator {
         for (Direction direction : directions) {
             var neighbour = maze.getNeighbour(currentCell, direction);
             neighbour.filter(this::hasNeverBeenVisited).ifPresent(newCell -> {
-                setPassage(currentCell, direction, true);
-                setPassage(newCell, getOpposite(direction), true);
+                modifyPassage(currentCell, direction, true);
+                modifyPassage(newCell, getOpposite(direction), true);
                 carvePassageFrom(newCell);
             });
         }
     }
 
-    private void setPassage(Cell cell, Direction direction, boolean isOpen) {
+    private void modifyPassage(Cell cell, Direction direction, boolean isOpen) {
         switch (direction) {
             case NORTH -> cell.setHasNPassage(isOpen);
             case SOUTH -> cell.setHasSPassage(isOpen);

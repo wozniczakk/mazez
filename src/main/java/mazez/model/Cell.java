@@ -1,5 +1,7 @@
 package mazez.model;
 
+import java.util.Objects;
+
 public class Cell {
 
     private final int row;
@@ -92,5 +94,18 @@ public class Cell {
             case SOUTH -> hasSPassage();
             case WEST -> hasWPassage();
         };
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cell cell = (Cell) o;
+        return row == cell.row && column == cell.column && hasNPassage == cell.hasNPassage && hasSPassage == cell.hasSPassage && hasEPassage == cell.hasEPassage && hasWPassage == cell.hasWPassage && hasCoin == cell.hasCoin && hasSpikeTrap == cell.hasSpikeTrap && hasSpiderTrap == cell.hasSpiderTrap;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column, hasNPassage, hasSPassage, hasEPassage, hasWPassage, hasCoin, hasSpikeTrap, hasSpiderTrap);
     }
 }
