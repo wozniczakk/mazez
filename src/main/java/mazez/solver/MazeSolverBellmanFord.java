@@ -9,11 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static java.lang.Math.min;
-import static java.util.Collections.shuffle;
-import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toMap;
-import static java.util.stream.IntStream.range;
 import static mazez.MazePrinter.displayMaze;
 import static mazez.Mode.TRAPS;
 import static mazez.model.Direction.ALL_DIRECTIONS;
@@ -38,7 +34,6 @@ public class MazeSolverBellmanFord implements Solver {
 
     private Route solve(Board board) {
         visited = new boolean[board.getNumberOfRows()][board.getNumberOfColumns()];
-        addPotionsAndDragons(board);
         return findOptimalRouteFrom(board);
     }
 
@@ -82,15 +77,6 @@ public class MazeSolverBellmanFord implements Solver {
         var min = distances.entrySet().stream().filter(entry -> endingCells.contains(entry.getKey())).min(Map.Entry.comparingByValue());
         var path = calculatePath(predecessors, board.getStartingCell(), min.orElseThrow().getKey());
         return new Route(min.orElseThrow().getValue(), path);
-    }
-
-    private void addPotionsAndDragons(Board maze) {
-        int spiderTraps = 5;
-        int spikeTraps = 10;
-        var cellsWithSPassage = maze.getAllCells().stream().filter(Cell::hasSPassage).collect(toCollection(ArrayList::new));
-        shuffle(cellsWithSPassage);
-        range(0, min(spiderTraps, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setHasSpiderTrap(true));
-        range(spiderTraps, min(spikeTraps + spiderTraps, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setHasSpikeTrap(true));
     }
 
     private int calculateCellPoints(Cell cell) {

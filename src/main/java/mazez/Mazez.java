@@ -16,13 +16,15 @@ import static mazez.Mode.TRAPS;
 public class Mazez {
     private final UserInputReader userInputReader;
     private final MazeValidator mazeValidator;
+    private final SolverSelector solverSelector;
 
-    public Mazez(UserInputReader userInputReader, MazeValidator mazeValidator) {
+    public Mazez(UserInputReader userInputReader, MazeValidator mazeValidator, SolverSelector solverSelector) {
         this.userInputReader = userInputReader;
         this.mazeValidator = mazeValidator;
+        this.solverSelector = solverSelector;
     }
 
-    public void run(){
+    public void run() {
         GenerationParams params = userInputReader.getGenerationParams();
         Board maze = generateValidMaze(params);
         List<Mode> modes = userInputReader.getModes();
@@ -31,7 +33,6 @@ public class Mazez {
     }
 
     private void solve(Board maze, List<Mode> modes) {
-        SolverSelector solverSelector = new SolverSelector();
         displayMaze(new ArrayList<>(), maze);
         modes.forEach(mode -> solverSelector.solveMode(maze, mode));
     }

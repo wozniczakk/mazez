@@ -93,17 +93,4 @@ public class Cell {
             case WEST -> hasWPassage();
         };
     }
-
-    @Override
-    public String toString() {
-        return "Cell{" +
-                "x=" + row +
-                ", y=" + column +
-                ", hasNPassage=" + hasNPassage +
-                ", hasSPassage=" + hasSPassage +
-                ", hasEPassage=" + hasEPassage +
-                ", hasWPassage=" + hasWPassage +
-                ", hasCoin=" + hasCoin +
-                '}';
-    }
 }

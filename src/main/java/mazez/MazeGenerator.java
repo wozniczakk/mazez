@@ -10,7 +10,6 @@ import java.util.List;
 
 import static java.lang.Math.min;
 import static java.util.Collections.shuffle;
-import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.IntStream.range;
 import static mazez.model.Direction.ALL_DIRECTIONS;
 import static mazez.model.Direction.getOpposite;

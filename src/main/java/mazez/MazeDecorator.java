@@ -13,6 +13,9 @@ import static java.util.stream.IntStream.range;
 
 public class MazeDecorator {
 
+    private MazeDecorator() {
+    }
+
     public static void addCoins(Board maze, int numberOfCoins) {
         var cellsWithSPassage = shuffleCells(maze);
         range(0, min(numberOfCoins, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setCoin(true));
