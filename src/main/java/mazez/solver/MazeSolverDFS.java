@@ -27,12 +27,12 @@ public class MazeSolverDFS implements Solver {
 
     private void solve(Board board) {
         visited = new boolean[board.getNumberOfRows()][board.getNumberOfColumns()];
-        dfs(board.getCell(board.getStartingPosition()), board);
+        findSolutionFrom(board.getStartingCell(), board);
     }
 
-    private void dfs(Cell cell, Board board) {
-        int row = cell.getX();
-        int column = cell.getY();
+    private void findSolutionFrom(Cell cell, Board board) {
+        int row = cell.getRow();
+        int column = cell.getColumn();
         if (!visited[row][column]) {
             visited[row][column] = true;
             if (board.isValidEnding(row, column)) {
@@ -45,7 +45,7 @@ public class MazeSolverDFS implements Solver {
                 if (cell.canGoInDirection(direction)) {
                     int newRow = row + direction.vector[0];
                     int newColumn = column + direction.vector[1];
-                    dfs(board.getBoard()[newRow][newColumn], board);
+                    findSolutionFrom(board.getBoard()[newRow][newColumn], board);
                 }
             }
         }

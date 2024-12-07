@@ -2,25 +2,47 @@ package mazez.model;
 
 public class Cell {
 
-    private final int x;
-    private final int y;
+    private final int row;
+    private final int column;
     private boolean hasNPassage;
     private boolean hasSPassage;
     private boolean hasEPassage;
     private boolean hasWPassage;
     private boolean hasCoin;
+    private boolean hasSpikeTrap;
+    private boolean hasSpiderTrap;
 
-    public Cell(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Cell(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
-    public int getX() {
-        return x;
+    public boolean hasSpikeTrap() {
+        return hasSpikeTrap;
     }
 
-    public int getY() {
-        return y;
+    public void setHasSpikeTrap(boolean hasSpikeTrap) {
+        this.hasSpikeTrap = hasSpikeTrap;
+    }
+
+    public void setHasSpiderTrap(boolean hasSpiderTrap) {
+        this.hasSpiderTrap = hasSpiderTrap;
+    }
+
+    public boolean hasSpiderTrap() {
+        return hasSpiderTrap;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public Position getPosition(){
+        return new Position(row, column);
     }
 
     public boolean hasNPassage() {
@@ -75,8 +97,8 @@ public class Cell {
     @Override
     public String toString() {
         return "Cell{" +
-                "x=" + x +
-                ", y=" + y +
+                "x=" + row +
+                ", y=" + column +
                 ", hasNPassage=" + hasNPassage +
                 ", hasSPassage=" + hasSPassage +
                 ", hasEPassage=" + hasEPassage +

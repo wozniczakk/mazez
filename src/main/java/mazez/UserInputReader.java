@@ -21,14 +21,14 @@ public class UserInputReader {
         System.out.println("Please, provide how many obstacles you want. No more than a half (rounded up) of the size.");
         int numberOfObstacles = scan.nextInt();
         validateNumberOfObstacles(numberOfObstacles, size);
-        System.out.println("Please, provide how many coins you want (lower or equal to size).");
+        System.out.println("Please, provide how many coins you want (lower or equal to the maze size).");
         int numberOfCoins = scan.nextInt();
         validateNumberOfCoins(numberOfCoins, size);
         return new GenerationParams(size, DEFAULT_STARTING_POSITION, numberOfCoins, numberOfObstacles);
     }
 
     public List<Mode> getModes() {
-        System.out.printf("Please, select the modes of the solver. Available modes:\n%s\n", Arrays.toString(Mode.values()));
+        System.out.printf("Please, select the mode for the solver. Available modes:\n%s\n", Arrays.toString(Mode.values()));
         return Arrays.stream(scan.next().split(",")).map(String::trim).map(Mode::valueOf).toList();
     }
 

@@ -7,7 +7,7 @@ import mazez.solver.SolverSelector;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mazez.MazeGenerator.displayMaze;
+import static mazez.MazePrinter.displayMaze;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,13 +23,6 @@ public class Main {
         displayMaze(new ArrayList<>(), maze);
 
         modes.forEach(mode -> solverSelector.solveMode(maze, mode));
-
-//        MazeSolverBFS mazeSolverBFS = new MazeSolverBFS(new int[]{0, 0}, maze.getBoard());
-//        List<Cell> path = mazeSolverBFS.bfs(0, 0);
-//        System.out.println("Steps to ending " + path.size());
-//        mazeGenerator.displayMaze(path);
-//        mazeSolverDFS.solve(maze);
-//        System.out.println(mazeSolverDFS.findEndingCells().size());
     }
 
     private static Board generateValidMaze(GenerationParams params) {
@@ -41,7 +34,6 @@ public class Main {
             mazeGenerator = new MazeGenerator(params);
             maze = mazeGenerator.carve();
         }
-
         return maze;
     }
 }

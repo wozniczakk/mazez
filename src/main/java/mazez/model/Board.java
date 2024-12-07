@@ -15,7 +15,6 @@ public class Board {
     private final Position startingPosition;
     private final Cell[][] board;
 
-
     public Board(int numberOfRows, int numberOfColumns, Position startingPosition) {
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
@@ -38,6 +37,10 @@ public class Board {
         return numberOfColumns;
     }
 
+    public Cell getStartingCell() {
+        return getCell(getStartingPosition());
+    }
+
     public Position getStartingPosition() {
         return startingPosition;
     }
@@ -46,10 +49,9 @@ public class Board {
         return board;
     }
 
-
     public Optional<Cell> getNeighbour(Cell cell, Direction direction) {
-        int newRow = cell.getX() + direction.vector[0];
-        int newColumn = cell.getY() + direction.vector[1];
+        int newRow = cell.getRow() + direction.vector[0];
+        int newColumn = cell.getColumn() + direction.vector[1];
         return isValidCell(newRow, newColumn) ? Optional.of(board[newRow][newColumn]) : empty();
     }
 

@@ -13,7 +13,6 @@ import static java.util.Collections.shuffle;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.IntStream.range;
 import static mazez.model.Direction.ALL_DIRECTIONS;
-import static mazez.model.Direction.EAST;
 import static mazez.model.Direction.getOpposite;
 
 public class MazeGenerator {
@@ -33,7 +32,7 @@ public class MazeGenerator {
     }
 
     public Board carve() {
-        carvePassageFrom(maze.getCell(maze.getStartingPosition()));
+        carvePassageFrom(maze.getStartingCell());
         addObstacles(maze, numberOfObstacles);
         addCoins(maze, numberOfCoins);
         return maze;
@@ -83,10 +82,6 @@ public class MazeGenerator {
         }
     }
 
-    private boolean hasNeverBeenVisited(Cell cell) {
-        return !cell.hasEPassage() && !cell.hasNPassage() && !cell.hasSPassage() && !cell.hasWPassage();
-    }
-
     private void setPassage(Cell cell, Direction direction, boolean isOpen) {
         switch (direction) {
             case NORTH -> cell.setHasNPassage(isOpen);
@@ -96,42 +91,10 @@ public class MazeGenerator {
         }
     }
 
-    public static void displayMaze(List<Cell> path, Board maze) {
-        StringBuilder sb = new StringBuilder();
-        int size = maze.getNumberOfColumns();
-        sb.append(" ");
-        sb.repeat("_", size * 2 - 1);
-        sb.append('\n');
-
-        for (int row = size - 1; row >= 0; row--) {
-            sb.append('|');
-            for (int column = 0; column < size; column++) {
-                Cell cell = maze.getCell(row, column);
-                if (path.contains(cell)) {
-                    sb.append("()");
-                } else {
-                    if (cell.hasCoin()) {
-                        sb.append("*");
-                    } else {
-                        sb.append(cell.hasSPassage() ? " " : "_");
-                    }
-                    if (cell.hasEPassage()) {
-                        sb.append(cell.hasSPassage() || maze.getNeighbour(cell, EAST).map(Cell::hasSPassage).orElse(false) ? " " : "_");
-                    } else {
-                        sb.append("|");
-                    }
-                }
-            }
-            sb.append('\n');
-        }
-        System.out.println(sb);
+    private boolean hasNeverBeenVisited(Cell cell) {
+        return !cell.hasEPassage() && !cell.hasNPassage() && !cell.hasSPassage() && !cell.hasWPassage();
     }
 
-    //enter/exit/obstacles
     public record GenerationParams(int size, Position start, int numberOfCoins, int numberOfObstacles) {
     }
 }
-
-
-
-

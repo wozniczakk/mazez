@@ -25,6 +25,4 @@ public enum Direction {
             case WEST -> EAST;
         };
     }
-
-
 }
