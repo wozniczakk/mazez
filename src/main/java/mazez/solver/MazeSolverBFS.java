@@ -16,6 +16,14 @@ import static mazez.MazePrinter.displayMaze;
 import static mazez.Mode.FIND_SHORTEST_PATH;
 import static mazez.model.Direction.ALL_DIRECTIONS;
 
+/**
+ * Solves the provided maze using Breadth-First Search Algorithm.
+ * <p>
+ * BFS explanation: <a href="https://en.wikipedia.org/wiki/Breadth-first_search">...</a>
+ * <p>
+ * The algorithm guarantees to find the shortest path when traversing a graph.
+ * This implementation searches for any valid exit on the walls placed diagonally towards the starting point [0,0].
+ */
 public class MazeSolverBFS implements Solver {
     private final Set<Cell> visited = new HashSet<>();
 
