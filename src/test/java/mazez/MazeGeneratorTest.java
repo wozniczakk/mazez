@@ -19,13 +19,9 @@ public class MazeGeneratorTest {
     MazeGenerator mazeGenerator = new MazeGenerator(generationParams, random);
 
     @Test
-    public void test() {
+    public void generates_maze() {
         var board = mazeGenerator.carve();
         MazePrinter.displayMaze(new ArrayList<>(), board);
-        for (Cell cell : board.getAllCells()) {
-            if (!cell.hasSPassage() && !cell.hasEPassage() && !cell.hasWPassage() && !cell.hasNPassage())
-                System.out.println(cell.getPosition());
-        }
 
         assertEquals(board.getBoard().length, 10);
         assertEquals(board.getBoard()[0].length, 10);

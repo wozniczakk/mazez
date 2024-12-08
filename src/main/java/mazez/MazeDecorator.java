@@ -5,6 +5,7 @@ import mazez.model.Cell;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.Math.min;
 import static java.util.Collections.shuffle;
@@ -16,20 +17,20 @@ public class MazeDecorator {
     private MazeDecorator() {
     }
 
-    public static void addCoins(Board maze, int numberOfCoins) {
-        var cellsWithSPassage = shuffleCells(maze);
-        range(0, min(numberOfCoins, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setCoin(true));
+    public static void addCoins(Board maze, int coins, Random random) {
+        var cellsWithSPassage = shuffleCells(maze, random);
+        range(0, min(coins, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setCoin(true));
     }
 
-    public static void addTraps(Board maze, int numberOfSpiderTraps, int numberOfSpikeTraps) {
-        var cellsWithSPassage = shuffleCells(maze);
-        range(0, min(numberOfSpiderTraps, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setSpiderTrap(true));
-        range(numberOfSpiderTraps, min(numberOfSpikeTraps + numberOfSpiderTraps, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setSpikeTrap(true));
+    public static void addTraps(Board maze, int spiderTraps, int numberOfSpikeTraps, Random random) {
+        var cellsWithSPassage = shuffleCells(maze, random);
+        range(0, min(spiderTraps, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setSpiderTrap(true));
+        range(spiderTraps, min(numberOfSpikeTraps + spiderTraps, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setSpikeTrap(true));
     }
 
-    private static List<Cell> shuffleCells(Board maze) {
+    private static List<Cell> shuffleCells(Board maze, Random random) {
         var cellsWithSPassage = maze.getAllCells().stream().filter(Cell::hasSPassage).collect(toCollection(ArrayList::new));
-        shuffle(cellsWithSPassage);
+        shuffle(cellsWithSPassage, random);
         return cellsWithSPassage;
     }
 }

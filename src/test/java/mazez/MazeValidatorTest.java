@@ -3,8 +3,10 @@ package mazez;
 import mazez.model.Position;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Random;
 
+import static mazez.MazePrinter.displayMaze;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -28,6 +30,8 @@ public class MazeValidatorTest {
         var generationParams = new MazeGenerator.GenerationParams(10, new Position(0, 0), 5);
         var mazeGenerator = new MazeGenerator(generationParams, random);
         var board = mazeGenerator.carve();
+
+        displayMaze(new ArrayList<>(), board);
 
         assertThat(mazeValidator.validate(board)).isFalse();
     }

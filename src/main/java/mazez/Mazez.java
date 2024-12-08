@@ -53,10 +53,10 @@ public class Mazez {
 
     private void decorateBoard(List<Mode> modes, UserInputReader userInputReader, Board maze) {
         if (modes.contains(TRAPS)) {
-            addTraps(maze, userInputReader.getNumberOfSpiderTraps(), userInputReader.getNumberOfSpikeTraps());
+            addTraps(maze, userInputReader.getNumberOfSpiderTraps(), userInputReader.getNumberOfSpikeTraps(), random);
         }
         if (modes.contains(COLLECT_COINS)) {
-            addCoins(maze, userInputReader.getNumberOfCoins());
+            addCoins(maze, userInputReader.getNumberOfCoins(), random);
         }
     }
 }
