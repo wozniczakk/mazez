@@ -6,12 +6,14 @@ import mazez.model.Direction;
 import mazez.Mode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static mazez.model.Direction.ALL_DIRECTIONS;
 
 public class MazeSolverDFS implements Solver {
-    private boolean[][] visited;
+    private final Set<Cell> visited = new HashSet<>();
     private final List<Cell> endingCells = new ArrayList<>();
     private int coinsCounter = 0;
 
@@ -26,32 +28,27 @@ public class MazeSolverDFS implements Solver {
     }
 
     private void solve(Board board) {
-        visited = new boolean[board.getNumberOfRows()][board.getNumberOfColumns()];
+        visited.clear();
+        endingCells.clear();
+        coinsCounter = 0;
+
         findSolutionFrom(board.getStartingCell(), board);
     }
 
     private void findSolutionFrom(Cell cell, Board board) {
-        int row = cell.getRow();
-        int column = cell.getColumn();
-        if (!visited[row][column]) {
-            visited[row][column] = true;
-            if (board.isValidEnding(row, column)) {
+        if (!visited.contains(cell)) {
+            visited.add(cell);
+            if (board.isValidEnding(cell)) {
                 endingCells.add(cell);
             }
-            if (hasCoin(cell)) {
+            if (cell.hasCoin()) {
                 coinsCounter++;
             }
             for (Direction direction : ALL_DIRECTIONS) {
                 if (cell.canGoInDirection(direction)) {
-                    int newRow = row + direction.vector[0];
-                    int newColumn = column + direction.vector[1];
-                    findSolutionFrom(board.getBoard()[newRow][newColumn], board);
+                    findSolutionFrom(board.getNeighbour(cell, direction).orElseThrow(), board);
                 }
             }
         }
-    }
-
-    private boolean hasCoin(Cell cell) {
-        return cell.hasCoin();
     }
 }

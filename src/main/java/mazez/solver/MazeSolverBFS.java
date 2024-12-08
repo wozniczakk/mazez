@@ -6,16 +6,18 @@ import mazez.model.Cell;
 import mazez.model.Direction;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 
 import static mazez.MazePrinter.displayMaze;
 import static mazez.Mode.FIND_SHORTEST_PATH;
 import static mazez.model.Direction.ALL_DIRECTIONS;
 
 public class MazeSolverBFS implements Solver {
-    private boolean[][] visited;
+    private final Set<Cell> visited = new HashSet<>();
 
     @Override
     public void printSolution(Board board, Mode mode) {
@@ -28,31 +30,33 @@ public class MazeSolverBFS implements Solver {
     }
 
     private List<Cell> solve(Board board) {
-        visited = new boolean[board.getNumberOfRows()][board.getNumberOfColumns()];
-        return findRouteFrom(board.getStartingCell(), board);
+        var result = findRouteFrom(board.getStartingCell(), board);
+        visited.clear();
+
+        return result;
     }
 
     private List<Cell> findRouteFrom(Cell cell, Board board) {
         Queue<Route> queue = new LinkedList<>();
         queue.add(new Route(cell, new ArrayList<>()));
-        visited[cell.getRow()][cell.getColumn()] = true;
+        visited.add(cell);
 
         while (!queue.isEmpty()) {
             Route route = queue.remove();
             Cell currentCell = route.cell();
             List<Cell> path = route.path;
-            if (board.isValidEnding(currentCell.getRow(), currentCell.getColumn())) {
+            if (board.isValidEnding(currentCell)) {
                 return path;
             }
             for (Direction direction : ALL_DIRECTIONS) {
                 if (currentCell.canGoInDirection(direction)) {
                     var neighbour = board.getNeighbour(currentCell, direction);
                     neighbour.ifPresent(newCell -> {
-                        if (!visited[newCell.getRow()][newCell.getColumn()]) {
+                        if (!visited.contains(newCell)) {
                             var newPath = new ArrayList<>(path);
                             newPath.add(newCell);
                             queue.add(new Route(newCell, newPath));
-                            visited[newCell.getRow()][newCell.getColumn()] = true;
+                            visited.add(newCell);
                         }
                     });
                 }

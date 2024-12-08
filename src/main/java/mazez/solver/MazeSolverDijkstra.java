@@ -6,9 +6,11 @@ import mazez.model.Cell;
 import mazez.model.Direction;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 
 import static java.util.Comparator.comparing;
 import static mazez.MazePrinter.displayMaze;
@@ -18,7 +20,8 @@ import static mazez.model.Direction.ALL_DIRECTIONS;
 public class MazeSolverDijkstra implements Solver {
     private static final int JUMP_COST = 20;
     private static final int REGULAR_COST = 1;
-    private boolean[][] visited;
+
+    private final Set<Cell> visited = new HashSet<>();
 
     @Override
     public void printSolution(Board board, Mode mode) {
@@ -32,28 +35,30 @@ public class MazeSolverDijkstra implements Solver {
     }
 
     private Route solve(Board board) {
-        visited = new boolean[board.getNumberOfRows()][board.getNumberOfColumns()];
-        return findRouteFrom(board.getStartingCell(), board);
+        var route = findRouteFrom(board.getStartingCell(), board);
+        visited.clear();
+
+        return route;
     }
 
     private Route findRouteFrom(Cell cell, Board board) {
         Queue<Route> queue = new PriorityQueue<>(comparing(Route::cost));
         queue.add(new Route(cell, new ArrayList<>(), 0));
-        visited[cell.getRow()][cell.getColumn()] = true;
+        visited.add(cell);
 
         while (!queue.isEmpty()) {
             Route route = queue.remove();
             Cell currentCell = route.cell();
-            visited[currentCell.getRow()][currentCell.getColumn()] = true;
+            visited.add(currentCell);
             List<Cell> path = route.path();
             int cost = route.cost();
-            if (board.isValidEnding(currentCell.getRow(), currentCell.getColumn())) {
+            if (board.isValidEnding(currentCell)) {
                 return route;
             }
             for (Direction direction : ALL_DIRECTIONS) {
                 var neighbour = board.getNeighbour(currentCell, direction);
                 neighbour.ifPresent(newCell -> {
-                    if (!visited[newCell.getRow()][newCell.getColumn()]) {
+                    if (!visited.contains(cell)) {
                         int newCost = cost + calculateCost(currentCell, direction);
                         var newPath = new ArrayList<>(path);
                         newPath.add(newCell);

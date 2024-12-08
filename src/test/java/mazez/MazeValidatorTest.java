@@ -9,7 +9,6 @@ import java.util.Random;
 import static mazez.MazePrinter.displayMaze;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 public class MazeValidatorTest {
 
     MazeValidator mazeValidator = new MazeValidator();
