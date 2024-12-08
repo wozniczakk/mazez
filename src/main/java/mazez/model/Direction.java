@@ -1,4 +1,6 @@
-package mazez;
+package mazez.model;
+
+import java.util.List;
 
 public enum Direction {
 
@@ -7,7 +9,9 @@ public enum Direction {
     WEST(new int[]{0, -1}),
     EAST(new int[]{0, 1});
 
-    final int[] vector;
+    public static final List<Direction> ALL_DIRECTIONS = List.of(NORTH, SOUTH, EAST, WEST);
+
+    public final int[] vector;
 
     Direction(int[] vector) {
         this.vector = vector;
