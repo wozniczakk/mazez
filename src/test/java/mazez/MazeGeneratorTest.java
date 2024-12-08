@@ -3,15 +3,14 @@ package mazez;
 import mazez.model.Board;
 import mazez.model.Cell;
 import mazez.model.Position;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toSet;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MazeGeneratorTest {
 
@@ -40,11 +39,11 @@ public class MazeGeneratorTest {
         var board = mazeGenerator.carve();
         var obstacles = getObstaclesFrom(board);
         var expectedObstacles = Set.of(
-                board.getCell(0,8),
-                board.getCell(3,8),
-                board.getCell(4,5),
-                board.getCell(3,7),
-                board.getCell(1,7));
+                board.getCell(0, 8),
+                board.getCell(3, 8),
+                board.getCell(4, 5),
+                board.getCell(3, 7),
+                board.getCell(1, 7));
 
         assertEquals(expectedObstacles, obstacles);
     }

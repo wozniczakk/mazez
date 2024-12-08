@@ -1,12 +1,12 @@
 package mazez;
 
 import mazez.model.Position;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class MazeValidatorTest {
 
@@ -19,7 +19,7 @@ public class MazeValidatorTest {
         var mazeGenerator = new MazeGenerator(generationParams, random);
         var board = mazeGenerator.carve();
 
-        assertTrue(mazeValidator.validate(board));
+        assertThat(mazeValidator.validate(board)).isTrue();
     }
 
     @Test
@@ -29,6 +29,6 @@ public class MazeValidatorTest {
         var mazeGenerator = new MazeGenerator(generationParams, random);
         var board = mazeGenerator.carve();
 
-        assertFalse(mazeValidator.validate(board));
+        assertThat(mazeValidator.validate(board)).isFalse();
     }
 }

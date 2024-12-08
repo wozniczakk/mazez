@@ -23,8 +23,8 @@ public class MazeDecorator {
 
     public static void addTraps(Board maze, int numberOfSpiderTraps, int numberOfSpikeTraps) {
         var cellsWithSPassage = shuffleCells(maze);
-        range(0, min(numberOfSpiderTraps, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setHasSpiderTrap(true));
-        range(numberOfSpiderTraps, min(numberOfSpikeTraps + numberOfSpiderTraps, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setHasSpikeTrap(true));
+        range(0, min(numberOfSpiderTraps, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setSpiderTrap(true));
+        range(numberOfSpiderTraps, min(numberOfSpikeTraps + numberOfSpiderTraps, cellsWithSPassage.size())).forEach(index -> cellsWithSPassage.get(index).setSpikeTrap(true));
     }
 
     private static List<Cell> shuffleCells(Board maze) {

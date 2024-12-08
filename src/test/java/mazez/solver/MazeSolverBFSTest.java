@@ -2,7 +2,7 @@ package mazez.solver;
 
 import mazez.MazeGenerator;
 import mazez.model.Position;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -10,8 +10,8 @@ import java.util.Random;
 
 import static mazez.Mode.COLLECT_COINS;
 import static mazez.Mode.FIND_SHORTEST_PATH;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class MazeSolverBFSTest {
 
@@ -41,8 +41,8 @@ public class MazeSolverBFSTest {
                 |_|()_______  |_|_  |
                 |X_()___________|_|_|""";
         var answer = "Shortest path length is 20.";
-        assertTrue(actual.contains(answer));
-        assertTrue(actual.contains(expectedBoard));
+        assertThat(actual).contains(answer);
+        assertThat(actual).contains(expectedBoard);
     }
 
     @Test
@@ -53,12 +53,16 @@ public class MazeSolverBFSTest {
         var board = mazeGenerator.carve();
 
         var mazeSolverBFS = new MazeSolverBFS();
-        assertThrows(IllegalStateException.class, () -> mazeSolverBFS.printSolution(board, FIND_SHORTEST_PATH));
+        assertThatThrownBy(() -> mazeSolverBFS.printSolution(board, FIND_SHORTEST_PATH))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("Maze cannot be solved!");
     }
 
     @Test
     public void rejects_unsupported_mode() {
         var mazeSolverBFS = new MazeSolverBFS();
-        assertThrows(UnsupportedOperationException.class, () -> mazeSolverBFS.printSolution(null, COLLECT_COINS));
+        assertThatThrownBy(() -> mazeSolverBFS.printSolution(null, COLLECT_COINS))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("Cannot solve this mode!");
     }
 }

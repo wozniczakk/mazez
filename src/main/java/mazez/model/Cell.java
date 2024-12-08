@@ -23,11 +23,11 @@ public class Cell {
         return hasSpikeTrap;
     }
 
-    public void setHasSpikeTrap(boolean hasSpikeTrap) {
+    public void setSpikeTrap(boolean hasSpikeTrap) {
         this.hasSpikeTrap = hasSpikeTrap;
     }
 
-    public void setHasSpiderTrap(boolean hasSpiderTrap) {
+    public void setSpiderTrap(boolean hasSpiderTrap) {
         this.hasSpiderTrap = hasSpiderTrap;
     }
 
@@ -43,7 +43,7 @@ public class Cell {
         return column;
     }
 
-    public Position getPosition(){
+    public Position getPosition() {
         return new Position(row, column);
     }
 
@@ -67,19 +67,19 @@ public class Cell {
         return hasWPassage;
     }
 
-    public void setHasNPassage(boolean hasNPassage) {
+    public void setNPassage(boolean hasNPassage) {
         this.hasNPassage = hasNPassage;
     }
 
-    public void setHasSPassage(boolean hasSPassage) {
+    public void setSPassage(boolean hasSPassage) {
         this.hasSPassage = hasSPassage;
     }
 
-    public void setHasEPassage(boolean hasEPassage) {
+    public void setEPassage(boolean hasEPassage) {
         this.hasEPassage = hasEPassage;
     }
 
-    public void setHasWPassage(boolean hasWPassage) {
+    public void setWPassage(boolean hasWPassage) {
         this.hasWPassage = hasWPassage;
     }
 

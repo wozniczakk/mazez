@@ -45,10 +45,10 @@ public class MazeGenerator {
     }
 
     private void closePassage(Cell cell) {
-        cell.setHasNPassage(false);
-        cell.setHasSPassage(false);
-        cell.setHasEPassage(false);
-        cell.setHasWPassage(false);
+        cell.setNPassage(false);
+        cell.setSPassage(false);
+        cell.setEPassage(false);
+        cell.setWPassage(false);
     }
 
     private void closeAllNeighbours(Cell currentCell) {
@@ -74,10 +74,10 @@ public class MazeGenerator {
 
     private void modifyPassage(Cell cell, Direction direction, boolean isOpen) {
         switch (direction) {
-            case NORTH -> cell.setHasNPassage(isOpen);
-            case SOUTH -> cell.setHasSPassage(isOpen);
-            case EAST -> cell.setHasEPassage(isOpen);
-            case WEST -> cell.setHasWPassage(isOpen);
+            case NORTH -> cell.setNPassage(isOpen);
+            case SOUTH -> cell.setSPassage(isOpen);
+            case EAST -> cell.setEPassage(isOpen);
+            case WEST -> cell.setWPassage(isOpen);
         }
     }
 
