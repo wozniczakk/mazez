@@ -29,6 +29,8 @@ public class MazePrinter {
                         sb.append("^");
                     } else if (cell.hasSpiderTrap()) {
                         sb.append("S");
+                    } else if (cell.getRow()==0 && cell.getColumn()==0){
+                        sb.append("X");
                     } else {
                         sb.append(cell.hasSPassage() ? " " : "_");
                     }

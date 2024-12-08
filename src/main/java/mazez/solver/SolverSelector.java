@@ -11,7 +11,7 @@ import static mazez.Mode.FIND_SHORTEST_PATH_WITH_WALL_JUMP;
 import static mazez.Mode.TRAPS;
 
 public class SolverSelector {
-    Map<Mode, Solver> solvers;
+    private final Map<Mode, Solver> solvers;
 
     public SolverSelector() {
         var mazeSolverDFS = new MazeSolverDFS();

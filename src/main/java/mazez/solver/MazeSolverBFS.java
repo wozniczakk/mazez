@@ -15,16 +15,16 @@ import static mazez.Mode.FIND_SHORTEST_PATH;
 import static mazez.model.Direction.ALL_DIRECTIONS;
 
 public class MazeSolverBFS implements Solver {
-    boolean[][] visited;
+    private boolean[][] visited;
 
     @Override
     public void printSolution(Board board, Mode mode) {
         if (mode != FIND_SHORTEST_PATH) {
-            throw new UnsupportedOperationException("Cannot solve this mode");
+            throw new UnsupportedOperationException("Cannot solve this mode!");
         }
         var shortestPath = solve(board);
         displayMaze(shortestPath, board);
-        System.out.println("Shortest path length is " + shortestPath.size());
+        System.out.printf("Shortest path length is %s.%n", shortestPath.size());
     }
 
     private List<Cell> solve(Board board) {
@@ -58,7 +58,7 @@ public class MazeSolverBFS implements Solver {
                 }
             }
         }
-        return new ArrayList<>();
+        throw new IllegalStateException("Maze cannot be solved!");
     }
 
     record Route(Cell cell, List<Cell> path) {

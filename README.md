@@ -34,7 +34,7 @@ In every mode the goal is to reach an exit (a wall on the diagonal from the star
 | | |_| | | |___ * _|___  |_  |
 |*|*|  _|_| |   |_____  |  _| |
 | | | |   |___|___  |  _|_|   |
-|_|_____|___________|_______|_|
+|X|_____|___________|_______|_|
 ```
 2. Sample maze 15*15 with `FIND_SHORTEST_PATH` mode active (the path is marked on the maze). Number of obstacles: 4. 
 
@@ -54,7 +54,7 @@ In every mode the goal is to reach an exit (a wall on the diagonal from the star
 |()  _|()()() |()_|()()() |()()
 |()_    |  ___|()() | |()_  | |
 |()() |___|    _|()___|()() | |
-|__()_______|_|_|()()()()()___|
+|X_()_______|_|_|()()()()()___|
 ```
 ## Possible improvements 
 1. Add different maze generation algorithms (currently only recursive backtracking).

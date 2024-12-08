@@ -18,7 +18,7 @@ import static mazez.model.Direction.ALL_DIRECTIONS;
 public class MazeSolverDijkstra implements Solver {
     private static final int JUMP_COST = 20;
     private static final int REGULAR_COST = 1;
-    boolean[][] visited;
+    private boolean[][] visited;
 
     @Override
     public void printSolution(Board board, Mode mode) {

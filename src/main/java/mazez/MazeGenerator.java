@@ -7,6 +7,7 @@ import mazez.model.Position;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static java.lang.Math.min;
 import static java.util.Collections.shuffle;
@@ -16,27 +17,26 @@ import static mazez.model.Direction.getOpposite;
 
 public class MazeGenerator {
     public static final Position DEFAULT_STARTING_POSITION = new Position(0, 0);
-    int size;
-    Position startingPosition;
-    int numberOfObstacles;
-    Board maze;
+    private final int numberOfObstacles;
+    private final Board maze;
+    private final Random random;
 
-    public MazeGenerator(GenerationParams generationParams) {
-        this.size = generationParams.size;
-        this.startingPosition = generationParams.start;
+    public MazeGenerator(GenerationParams generationParams, Random random) {
+        int size = generationParams.size;
         this.numberOfObstacles = generationParams.numberOfObstacles;
         this.maze = new Board(size, size, generationParams.start);
+        this.random = random;
     }
 
     public Board carve() {
         carvePassageFrom(maze.getStartingCell());
-        addObstacles(maze, numberOfObstacles);
+        addObstacles(maze, numberOfObstacles, random);
         return maze;
     }
 
-    private void addObstacles(Board maze, int numberOfObstacles) {
+    private void addObstacles(Board maze, int numberOfObstacles, Random random) {
         var cells = maze.getAllCells();
-        shuffle(cells);
+        shuffle(cells, random);
         range(0, min(numberOfObstacles, cells.size())).forEach(index -> {
             Cell currentCell = cells.get(index);
             closePassage(currentCell);
@@ -60,7 +60,7 @@ public class MazeGenerator {
 
     private void carvePassageFrom(Cell currentCell) {
         List<Direction> directions = new ArrayList<>(ALL_DIRECTIONS);
-        shuffle(directions);
+        shuffle(directions, random);
 
         for (Direction direction : directions) {
             var neighbour = maze.getNeighbour(currentCell, direction);

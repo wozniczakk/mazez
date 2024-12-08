@@ -6,6 +6,7 @@ import mazez.solver.SolverSelector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static mazez.MazeDecorator.addCoins;
 import static mazez.MazeDecorator.addTraps;
@@ -17,11 +18,13 @@ public class Mazez {
     private final UserInputReader userInputReader;
     private final MazeValidator mazeValidator;
     private final SolverSelector solverSelector;
+    private final Random random;
 
-    public Mazez(UserInputReader userInputReader, MazeValidator mazeValidator, SolverSelector solverSelector) {
+    public Mazez(UserInputReader userInputReader, MazeValidator mazeValidator, SolverSelector solverSelector, Random random) {
         this.userInputReader = userInputReader;
         this.mazeValidator = mazeValidator;
         this.solverSelector = solverSelector;
+        this.random = random;
     }
 
     public void run() {
@@ -38,11 +41,11 @@ public class Mazez {
     }
 
     private Board generateValidMaze(GenerationParams params) {
-        var mazeGenerator = new MazeGenerator(params);
+        var mazeGenerator = new MazeGenerator(params, random);
         var maze = mazeGenerator.carve();
 
         while (!mazeValidator.validate(maze)) {
-            mazeGenerator = new MazeGenerator(params);
+            mazeGenerator = new MazeGenerator(params, random);
             maze = mazeGenerator.carve();
         }
         return maze;

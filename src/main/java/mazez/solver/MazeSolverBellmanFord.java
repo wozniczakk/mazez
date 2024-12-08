@@ -18,7 +18,6 @@ public class MazeSolverBellmanFord implements Solver {
 
     private final static int SPIKE_TRAP = 15;
     private final static int SPIDER_TRAP = 30;
-    boolean[][] visited;
 
     @Override
     public void printSolution(Board board, Mode mode) {
@@ -32,7 +31,6 @@ public class MazeSolverBellmanFord implements Solver {
     }
 
     private Route solve(Board board) {
-        visited = new boolean[board.getNumberOfRows()][board.getNumberOfColumns()];
         return findOptimalRouteFrom(board);
     }
 

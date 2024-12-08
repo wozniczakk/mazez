@@ -11,9 +11,9 @@ import java.util.List;
 import static mazez.model.Direction.ALL_DIRECTIONS;
 
 public class MazeSolverDFS implements Solver {
-    boolean[][] visited;
-    List<Cell> endingCells = new ArrayList<>();
-    int coinsCounter = 0;
+    private boolean[][] visited;
+    private final List<Cell> endingCells = new ArrayList<>();
+    private int coinsCounter = 0;
 
     @Override
     public void printSolution(Board board, Mode mode) {
