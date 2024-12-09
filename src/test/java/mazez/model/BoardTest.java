@@ -7,8 +7,7 @@ import static mazez.model.Direction.NORTH;
 import static mazez.model.Direction.SOUTH;
 import static mazez.model.Direction.WEST;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class BoardTest {
 
@@ -23,15 +22,14 @@ public class BoardTest {
         assertThat(board.getNumberOfRows()).isEqualTo(10);
         assertThat(board.getNumberOfColumns()).isEqualTo(10);
         assertThat(board.getAllCells()).hasSize(100);
-        assertThat(board.getBoard().length).isEqualTo(10);
-        assertThat(board.getBoard()[0].length).isEqualTo(10);
+        assertThat(board.getBoard()).hasDimensions(10, 10);
     }
 
     @Test
     public void validates_ending_position() {
-        assertTrue(board.isValidEnding(9, 9));
-        assertFalse(board.isValidEnding(8, 8));
-        assertFalse(board.isValidEnding(11, 11));
+        assertThat(board.isValidEnding(new Cell(9, 9))).isTrue();
+        assertThat(board.isValidEnding(new Cell(8, 8))).isFalse();
+        assertThat(board.isValidEnding(new Cell(11, 11))).isFalse();
     }
 
     @Test

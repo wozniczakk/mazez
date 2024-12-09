@@ -18,6 +18,7 @@ public class MazeSolverBellmanFord implements Solver {
 
     private final static int SPIKE_TRAP = 15;
     private final static int SPIDER_TRAP = 30;
+    private static final int MAX_COST = 10000;
 
     @Override
     public void printSolution(Board board, Mode mode) {
@@ -35,7 +36,7 @@ public class MazeSolverBellmanFord implements Solver {
     }
 
     private Route findOptimalRouteFrom(Board board) {
-        var distances = board.getAllCells().stream().collect(toMap(key -> key, key -> 10000));
+        var distances = board.getAllCells().stream().collect(toMap(key -> key, key -> MAX_COST));
         var predecessors = board.getAllCells().stream().collect(toMap(key -> key, key -> key));
         distances.put(board.getStartingCell(), 0);
 
@@ -70,7 +71,7 @@ public class MazeSolverBellmanFord implements Solver {
             }
         }
 
-        var endingCells = board.getAllCells().stream().filter(cell -> board.isValidEnding(cell.getRow(), cell.getColumn())).toList();
+        var endingCells = board.getAllCells().stream().filter(board::isValidEnding).toList();
         var min = distances.entrySet().stream().filter(entry -> endingCells.contains(entry.getKey())).min(Map.Entry.comparingByValue());
         var path = calculatePath(predecessors, board.getStartingCell(), min.orElseThrow().getKey());
         return new Route(min.orElseThrow().getValue(), path);

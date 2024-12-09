@@ -6,8 +6,7 @@ import static mazez.model.Direction.EAST;
 import static mazez.model.Direction.NORTH;
 import static mazez.model.Direction.SOUTH;
 import static mazez.model.Direction.WEST;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class CellTest {
 
@@ -17,10 +16,10 @@ public class CellTest {
         cell.setNPassage(true);
         cell.setWPassage(true);
 
-        assertTrue(cell.hasNPassage());
-        assertTrue(cell.hasWPassage());
-        assertFalse(cell.hasSPassage());
-        assertFalse(cell.hasEPassage());
+        assertThat(cell.hasNPassage()).isTrue();
+        assertThat(cell.hasWPassage()).isTrue();
+        assertThat(cell.hasSPassage()).isFalse();
+        assertThat(cell.hasEPassage()).isFalse();
     }
 
     @Test
@@ -29,10 +28,10 @@ public class CellTest {
         cell.setEPassage(true);
         cell.setSPassage(true);
 
-        assertTrue(cell.canGoInDirection(EAST));
-        assertTrue(cell.canGoInDirection(SOUTH));
-        assertFalse(cell.canGoInDirection(NORTH));
-        assertFalse(cell.canGoInDirection(WEST));
+        assertThat(cell.canGoInDirection(EAST)).isTrue();
+        assertThat(cell.canGoInDirection(SOUTH)).isTrue();
+        assertThat(cell.canGoInDirection(NORTH)).isFalse();
+        assertThat(cell.canGoInDirection(WEST)).isFalse();
     }
 
     @Test
@@ -41,8 +40,8 @@ public class CellTest {
         cell.setSpiderTrap(true);
         cell.setSpikeTrap(true);
 
-        assertTrue(cell.hasSpiderTrap());
-        assertTrue(cell.hasSpikeTrap());
+        assertThat(cell.hasSpiderTrap()).isTrue();
+        assertThat(cell.hasSpikeTrap()).isTrue();
     }
 
     @Test
@@ -50,6 +49,6 @@ public class CellTest {
         var cell = new Cell(1, 1);
         cell.setCoin(true);
 
-        assertTrue(cell.hasCoin());
+        assertThat(cell.hasCoin()).isTrue();
     }
 }

@@ -4,29 +4,31 @@ import mazez.model.Board;
 import mazez.model.Cell;
 import mazez.model.Direction;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static mazez.model.Direction.ALL_DIRECTIONS;
 
 public class MazeValidator {
-    private boolean[][] visited;
+    private final Set<Cell> visited = new HashSet<>();
 
     public boolean validate(Board board) {
-        visited = new boolean[board.getNumberOfRows()][board.getNumberOfColumns()];
-        return canReachEnd(board.getStartingCell(), board);
+        var result = canReachEnd(board.getStartingCell(), board);
+        visited.clear();
+
+        return result;
     }
 
     private boolean canReachEnd(Cell cell, Board board) {
-        int row = cell.getRow();
-        int column = cell.getColumn();
-        if (!visited[row][column]) {
-            visited[row][column] = true;
-            if (board.isValidEnding(row, column)) {
+        if (!visited.contains(cell)) {
+            visited.add(cell);
+            if (board.isValidEnding(cell)) {
                 return true;
             }
             for (Direction direction : ALL_DIRECTIONS) {
                 if (cell.canGoInDirection(direction)) {
-                    int newRow = row + direction.vector[0];
-                    int newColumn = column + direction.vector[1];
-                    if(canReachEnd(board.getBoard()[newRow][newColumn], board)) {
+                    var neighbour = board.getNeighbour(cell, direction).orElseThrow();
+                    if(canReachEnd(neighbour, board)) {
                         return true;
                     }
                 }

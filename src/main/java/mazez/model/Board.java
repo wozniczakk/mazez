@@ -71,7 +71,7 @@ public class Board {
         return row < numberOfRows && row >= 0 && column < numberOfColumns && column >= 0;
     }
 
-    public boolean isValidEnding(int row, int column) {
-        return row == numberOfRows - 1 || column == numberOfColumns - 1;
+    public boolean isValidEnding(Cell cell) {
+        return cell.getRow() == numberOfRows - 1 || cell.getColumn() == numberOfColumns - 1;
     }
 }
