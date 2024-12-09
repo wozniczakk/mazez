@@ -21,7 +21,7 @@ public class MazeSolverDFS implements Solver {
     public void printSolution(Board board, Mode mode) {
         solve(board);
         switch (mode) {
-            case COLLECT_COINS -> System.out.println("Coins found " + coinsCounter);
+            case COLLECT_COINS -> System.out.println("Reachable coins " + coinsCounter);
             case FIND_ALL_EXITS -> System.out.println("Exits found " + endingCells.size());
             default -> throw new UnsupportedOperationException("Cannot solve this mode");
         }
